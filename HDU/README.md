@@ -3,7 +3,7 @@
 ## Tips
 * 确定合适的输入输出方式、格式
 * 尽量避免C和C++输入输出混用
-* 样本全给int，实际可能有float，be careful
+* 样本int，实际float；样本有序，实际乱序...认真读题，be careful
 * float-%f,double-%lf,long double-%Lf
 * 数组越界-Runtime Error；数据溢出-Wrong Answer
 * 大数组定义成全局(全局-栈(小)、局部-堆(大))，容易Runtime Error

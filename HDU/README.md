@@ -7,6 +7,7 @@
 * float-%f,double-%lf,long double-%Lf
 * 数组越界-Runtime Error；数据溢出-Wrong Answer
 * 大数组定义成全局(全局-栈(小)、局部-堆(大))，容易Runtime Error
+* 可以考虑用0xfffffff等来表示Infinity
 
 ## Solutions
 * **大数量级、求模：** 考虑找规律

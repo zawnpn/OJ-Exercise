@@ -2,4 +2,11 @@
 
 My OJ Exercises.
 
-Using [Virtual Judge](https://vjudge.net/).
+## Platform
+
+* [Virtual Judge](https://vjudge.net/)
+* [LUOGU](https://www.luogu.org)
+
+## My Notes
+
+[NOTES.md](./NOTES.md)

@@ -9,7 +9,9 @@
 * float-%f,double-%lf,long double-%Lf
 * 数组越界-Runtime Error；数据溢出-Wrong Answer
 * 大数组定义成全局(全局-栈(小)、局部-堆(大))，容易Runtime Error
-* 可以考虑用0x7fffffff等来表示Infinity
+* 可以考虑用0x7fffffff(小心溢出，dijkstra不能用，更推荐0x3f3f3f3f=1061109567~10^9)等来表示Infinity
+* 注意memset按字节操作，最大0x7f，建议0x3f(0,-1能保持原值)
+* sort(a,a+size)
 
 ## Solutions
 * **大数量级、求模：** 考虑找规律

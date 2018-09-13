@@ -1,61 +1,66 @@
 #include <cstdio>
-#include <cstring>
-int dp[32010];
-int dpa[61][32010];
-int att[61][2];
-struct item {
-	int cost;
-	int val;
-	int q;
-} a[61];
-int V;
-int max(int a, int b) { return a > b ? a : b; }
+#include <vector>
+#include <algorithm>
+using namespace std;
+
+const int maxn = 32010;
+pair<int, int> primary[100];
+vector<pair<int, int> > groups[100];
+int dp[maxn];
 int main()
 {
-	int n, m, i;
+	int n, m, v, p, q;
+	int i, j, k;
+	int len, cost, value;
 	scanf("%d%d", &n, &m);
-	V = n;
-	memset(att, -1, sizeof(att));
 	for (i = 1; i <= m; i++)
 	{
-		scanf("%d%d%d", &a[i].cost, &a[i].val, &a[i].q);
-		if (a[i].q)
+		pair<int, int> tmp(0, 0);//预先添加一个空物品(primary)
+		groups[i].push_back(tmp);
+	}
+	for (i = 1; i <= m; i++)//构造附件集
+	{
+		scanf("%d%d%d", &v, &p, &q);
+		if (q == 0)
 		{
-			int j = 0;
-			while (att[a[i].q][j] != -1)
-				j++;
-			att[a[i].q][j] = i;
+			primary[i].first = v;
+			primary[i].second = p * v;
+		}
+		else
+		{
+			len = groups[q].size();
+			for (j = 0; j < len; j++)
+			{
+				cost = groups[q][j].first + v;
+				value = groups[q][j].second + p * v;
+				pair<int, int> tmp(cost, value);
+				groups[q].push_back(tmp);
+			}
 		}
 	}
-	int value, cost;
-	for (i = 1; i <= m; i++)//对每个主件i的附件集做一次01背包
+	for (i = 1; i <= m; i++)//加入主件
 	{
-		if (a[i].q == 0)
+		len = groups[i].size();
+		for (j = 0; j < len&&primary[i].first; j++)
 		{
-			int j = 0;
-			while (att[i][j] != -1)
-			{
-				value = a[att[i][j]].val;
-				cost = a[att[i][j]].cost;
-				for (int v = V - a[i].cost; v >= cost; v--)
-				{
-					dpa[i][v] = max(dpa[i][v], dpa[i][v - cost] + value * cost);
-				}
-				j++;
-			}
+			groups[i][j].first += primary[i].first;
+			groups[i][j].second += primary[i].second;
 		}
 	}
 	for (i = 1; i <= m; i++)//分组背包
 	{
-		for (int v = V; v >= 0; v--)
+		len = groups[i].size();
+		for (k = n; k >= 0 && len; k--)
 		{
-			for (int u = 0; u <= V - a[i].cost; u++)
+			for (j = 0; j < len; j++)
 			{
-				if (v-u-a[i].cost>=0)
-					dp[v]=max(dp[v],dp[v-u-a[i].cost]+(dpa[i][u]+a[i].val)*(u+a[i].cost));
+				if (k >= groups[i][j].first)
+				{
+					dp[k] = max(dp[k], dp[k - groups[i][j].first] + groups[i][j].second);
+				}
 			}
 		}
 	}
-	printf("%d", dp[V]);
+	printf("%d\n", dp[n]);
 	return 0;
 }
